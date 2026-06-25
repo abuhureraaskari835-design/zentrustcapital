@@ -547,7 +547,10 @@ nav.main .drop-parent span::after {
   box-shadow: var(--shadow-btn-cta);
   white-space: nowrap;
 }
-
+.btn-cta>a{
+  color: var(--ink) !important;
+  text-decoration: none;
+}
 .btn-cta:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-btn-cta-hover);
