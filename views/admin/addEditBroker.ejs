@@ -1,0 +1,433 @@
+<%- include('../partials/head') %>
+
+<link rel="stylesheet" href="/css/styles-pages.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/header.css">
+
+
+<style>
+  .broker-form-card {
+    max-width: 980px;
+    margin: 110px auto 60px;
+    padding: 36px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--r14);
+    box-shadow: var(--shadow-card);
+  }
+
+  .broker-form-card h2 {
+    font-family: var(--pages-font-display);
+    font-size: clamp(1.9rem, 2.5vw, 2.4rem);
+    margin-bottom: 8px;
+  }
+
+  .broker-form-card p {
+    color: var(--mist2);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  .broker-form-grid {
+    display: grid;
+    gap: 22px;
+  }
+
+  .broker-form-grid .full-width {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 860px) {
+    .broker-form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .form-group,
+  .form-fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  fieldset.form-fieldset {
+    border: 1px solid var(--border-card);
+    padding: 20px 18px 18px;
+    border-radius: var(--r10);
+    
+  }
+
+  .form-group label,
+  .form-fieldset legend {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cream);
+  }
+
+  .form-fieldset legend {
+    padding: 0 8px;
+    margin-left: 6px;
+    color: var(--cream);
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-card);
+    border-radius: var(--r10);
+    background: var(--surface-glass);
+    color: var(--cream);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--darkBlue-to-teal12);
+    box-shadow: 0 0 0 4px var(--surface-hover);
+  }
+
+  .form-textarea {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  .fieldset-body {
+    display: grid;
+    gap: 12px;
+    padding: 16px 0 0;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .checkbox-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-card);
+    border-radius: var(--r10);
+    color: var(--mist2);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .checkbox-item:hover {
+    background: var(--surface-hover);
+  }
+
+  .checkbox-item input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--darkBlue-to-teal12);
+    cursor: pointer;
+  }
+
+  .inline-inputs {
+    display: grid;
+    gap: 20px;
+  }
+
+  @media (min-width: 860px) {
+    .inline-inputs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .rating-stars {
+    display: inline-flex;
+    gap: 6px;
+    padding: 12px 14px;
+    border-radius: var(--r10);
+    color: var(--mist2);
+    font-size: 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  .rating-stars .star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--surface-hover);
+  }
+
+  .full-filled-star {
+    color: var(--gold3);
+  }
+
+  .half-filled-star {
+    color: var(--mist2);
+    position: relative;
+    display: inline-block;
+  }
+
+  .half-filled-star::after {
+    content: '★';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    -webkit-mask-image: linear-gradient(to right, black 100%, transparent 100%);
+    mask-image: linear-gradient(to right, black 100%, transparent 100%);
+    -webkit-mask-clip: text;
+    color: var(--gold3);
+    z-index: 1;
+  }
+
+  .form-hint {
+    color: var(--mist2);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .form-actions {
+    margin-top: 28px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    min-width: 160px;
+  }
+
+  @media (max-width: 768px) {
+    .broker-form-card {
+      margin: 90px 16px 40px;
+      padding: 26px;
+    }
+
+    .checkbox-grid,
+    .inline-inputs {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      justify-content: stretch;
+    }
+
+    .form-actions button {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <%- include('../partials/header') %>
+
+
+
+
+  <div class="page-wrapper">
+    <div class="container">
+      <div class="broker-form-card">
+        <h2>Add / Edit Broker</h2>
+        <p>Fill in the broker details below. The form is optimized for quick edits and matches the rest of the site
+          styling.</p>
+
+        <form action="/admin/addEditBroker" method="post">
+          <input type="hidden" name="brokerId">
+
+          <div class="broker-form-grid">
+            <fieldset class="full-width form-fieldset">
+              <legend>Data Tags</legend>
+              <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="ecn"> ECN
+                  Brokers</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="standard">
+                  Standard</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="crypto"> Crypto
+                  Friendly</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="low-deposit"> Low
+                  Deposit</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="welcome-bonus"> Welcome
+                  Bonus</label>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <label for="brokerLogo">Broker Logo URL</label>
+              <input id="brokerLogo" type="text" name="brokerLogo" class="form-input"
+                placeholder="https://example.com/logo.png">
+            </div>
+
+            <div class="form-group">
+              <label for="brokerName">Broker Name</label>
+              <input id="brokerName" type="text" name="brokerName" class="form-input" placeholder="e.g. Alpha Trading">
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-item"
+                style="background: transparent; border: none; padding: 0; gap: 10px; color: var(--cream);">
+                <input type="checkbox" name="brokerEditorsPick" value="Editor's Pick" style="width:auto; height:auto;">
+                Editor's Pick
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="brokerRating">Rating</label>
+              <input id="brokerRating" type="number" value="0" name="brokerRating" class="form-input" min="0" max="5"
+                step="0.1" placeholder="0.0">
+              <p class="form-hint">Set a value from 0 to 5. Use decimals for half ratings.</p>
+            </div>
+
+            <div class="form-group full-width">
+              <div class="rating-stars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+              </div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="brokerDescription">Description</label>
+              <textarea id="brokerDescription" name="brokerDescription" class="form-textarea"
+                placeholder="Write a short description for the broker..."></textarea>
+            </div>
+
+            <fieldset class="full-width form-fieldset">
+              <legend>Broker Tags</legend>
+              <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="FCA"> FCA</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="CySEC"> CySEC</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="ECN"> ECN</label>
+                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="Instant Withdrawal">
+                  Instant Withdrawal</label>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <label for="brokerLeverage">Leverage</label>
+              <input id="brokerLeverage" type="text" name="brokerLeverage" class="form-input" placeholder="e.g. 1:500">
+            </div>
+
+            <div class="form-group">
+              <label for="brokerMinDeposit">Minimum Deposit</label>
+              <input id="brokerMinDeposit" type="number" name="brokerMinDeposit" class="form-input"
+                placeholder="e.g. 100">
+            </div>
+
+            <div class="form-group">
+              <label for="brokerMinSpread">Minimum Spread</label>
+              <input id="brokerMinSpread" type="text" name="brokerMinSpread" class="form-input" placeholder="1:2000">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Broker</button>
+            <a href="/admin" class="btn-secondary">Back to Admin</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ratingInput = document.querySelector('input[name="brokerRating"]');
+
+    let ratingStars = document.querySelectorAll('.rating-stars span');
+    console.log(ratingInput);
+    console.log(ratingStars);
+
+    // MY LOGIC ::::::::::::::::::::::::::::::::::::::::::
+
+    ratingInput.addEventListener('input', function () {
+      // 2. Parse the value to a number (use parseInt or Number)
+
+      ratingStars.forEach(star => {
+        star.classList.remove('full-filled-star', 'half-filled-star');
+      });
+      for (let i = 0; i < this.value; i++) {
+        // star = ratingStars[i];
+        if (Number.isInteger(+this.value)) {
+          console.log('the number is an integer', this.value);
+
+          ratingStars[i].classList.add('full-filled-star');
+
+        } else {
+
+          ratingStars[i].classList.add('full-filled-star');
+          console.log('the number is not an integer');
+
+          if (Number(this.value) - i < 1) {
+            ratingStars[i].classList.replace('full-filled-star', 'half-filled-star');
+            console.log('Star is half filled. the number is not an integer');
+          }
+
+        }
+
+      }
+
+    });
+
+    // Add this below your star-rating code to lock the numeric typing range
+    ratingInput.addEventListener('keyup', function () {
+      let numericValue = parseFloat(this.value);
+
+      if (numericValue > 5) {
+        this.value = 5; // Instantly overrides numbers over 5 back down to 5
+        this.dispatchEvent(new Event('input')); // Forces your star system to recalculate
+      } else if (numericValue < 0) {
+        this.value = 0; // Instantly overrides negative numbers back up to 0
+        this.dispatchEvent(new Event('input'));
+      }
+    });
+
+
+    // VS Code Logic ::::::::::::::::::::::::::::::::::::::::::
+
+    //  ratingInput.addEventListener('input', function () {
+    //     // 1. Clear all stars
+    //     ratingStars.forEach(star => {
+    //       star.classList.remove('full-filled-star', 'half-filled-star');
+    //     });
+
+    //     // 2. Parse the value to a number (use parseInt or Number)
+    //     let ratingValue = parseFloat(this.value);
+
+    //     // 3. Loop through the stars and fill them based on the rating value
+    //     for (let i = 0; i < ratingStars.length; i++) {
+    //       if (i < Math.floor(ratingValue)) {
+    //         ratingStars[i].classList.add('full-filled-star');
+    //       } else if (i === Math.floor(ratingValue) && ratingValue % 1 !== 0) {
+    //         ratingStars[i].classList.add('half-filled-star');
+    //       }
+    //     }
+    //   });
+
+
+
+    let brokerMinSpread = document.querySelector('input[name="brokerMinSpread"]');
+    brokerMinSpread.addEventListener('input', function () {
+     
+      if (this.value.length === 1) {
+        this.value = this.value.substring(0, 1) + ":";
+      }
+
+
+      // }
+    })
+  
+  </script>
+  <%- include('../partials/footer') %>
+
+  <script src="/js/theme.js"></script>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

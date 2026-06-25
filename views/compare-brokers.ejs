@@ -1,0 +1,106 @@
+<%- include('partials/head') %>
+
+<link rel="stylesheet" href="/css/styles-pages.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/header.css">
+
+<style>
+    .compare-table { width:100%; border-collapse:collapse; }
+    .compare-table th {
+      background:var(--pages-bg3); border:1px solid var(--pages-border);
+      padding:16px; text-align:center; font-family:var(--pages-font-display); font-size:1rem;
+    }
+    .compare-table th:first-child { text-align:left; font-size:0.8rem; color:var(--pages-text3); background:var(--pages-bg2); }
+    .compare-table td {
+      border:1px solid var(--pages-border); padding:14px 16px;
+      font-size:0.9rem; color:var(--pages-text2); text-align:center;
+    }
+    .compare-table td:first-child { text-align:left; font-weight:600; color:var(--pages-text); font-size:0.85rem; background:var(--pages-bg2); }
+    .compare-table tr:hover td { background:var(--pages-bg3); }
+    .compare-table .best { color:var(--pages-green); font-weight:700; }
+    .check { color:var(--pages-green); font-weight:700; }
+    .cross { color:var(--pages-red); }
+    .highlight-col { background:var(--footer-bg) !important; }
+    .top-badge {
+      display:block; font-size:0.7rem; color:var(--pages-gold);
+      font-weight:700; letter-spacing:0.06em; margin-bottom:4px;
+    }
+
+    /* New classes - no inline styles */
+    .compare-description {
+      color: var(--pages-text2);
+      margin-top: 12px;
+    }
+
+    .compare-table-container {
+      overflow-x: auto;
+    }
+
+    .btn-compare {
+      padding: 8px 14px;
+      font-size: 0.8rem;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+<%- include('partials/header') %>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/brokers">Brokers</a><span>/</span><span>Compare</span></div>
+      <span class="section-label">
+      <div class="ld">✦</div>
+        Side-by-Side</span>
+      <h1>Compare <span class="text-gold">Forex Brokers</span></h1>
+      <p class="compare-description">Find the perfect broker by comparing fees, leverage, regulation, and features side-by-side.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container compare-table-container">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th><span class="top-badge">⭐ #1 PICK</span>Exness</th>
+            <th>XM Global</th>
+            <th>IC Markets</th>
+            <th>FP Markets</th>
+            <th>AxiTrader</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Overall Rating</td><td class="highlight-col best">★★★★★ 4.9</td><td>★★★★★ 4.8</td><td>★★★★★ 4.7</td><td>★★★★☆ 4.5</td><td>★★★★☆ 4.3</td></tr>
+          <tr><td>Min Deposit</td><td class="highlight-col best">$1</td><td>$5</td><td>$200</td><td>$100</td><td>$0</td></tr>
+          <tr><td>Max Leverage</td><td class="highlight-col best">1:2000</td><td>1:888</td><td>1:500</td><td>1:500</td><td>1:400</td></tr>
+          <tr><td>Min Spread (EUR/USD)</td><td class="highlight-col best">0.0 pips</td><td>0.6 pips</td><td>0.0 pips</td><td>0.0 pips</td><td>0.4 pips</td></tr>
+          <tr><td>Commission/Lot</td><td class="highlight-col">$3.5</td><td>$0</td><td>$3.5</td><td>$3.0</td><td>$0</td></tr>
+          <tr><td>Regulation</td><td class="highlight-col">FCA, CySEC</td><td>CySEC, ASIC</td><td>ASIC, FSA</td><td>ASIC, CySEC</td><td>FCA, ASIC</td></tr>
+          <tr><td>Platforms</td><td class="highlight-col">MT4, MT5</td><td>MT4, MT5</td><td>MT4, MT5, cTrader</td><td>MT4, MT5, cTrader</td><td>MT4</td></tr>
+          <tr><td>Instant Withdrawal</td><td class="highlight-col check">✓ Yes</td><td class="cross">✗ No</td><td class="cross">✗ No</td><td class="cross">✗ No</td><td class="cross">✗ No</td></tr>
+          <tr><td>JazzCash / Easypaisa</td><td class="highlight-col check">✓ Yes</td><td class="cross">✗ No</td><td class="cross">✗ No</td><td class="cross">✗ No</td><td class="cross">✗ No</td></tr>
+          <tr><td>Islamic Account</td><td class="highlight-col check">✓ Yes</td><td class="check">✓ Yes</td><td class="check">✓ Yes</td><td class="check">✓ Yes</td><td class="cross">✗ No</td></tr>
+          <tr><td>Welcome Bonus</td><td class="highlight-col cross">✗ No</td><td class="check">✓ $30</td><td class="cross">✗ No</td><td class="cross">✗ No</td><td class="cross">✗ No</td></tr>
+          <tr><td>Crypto CFDs</td><td class="highlight-col check">✓ Yes</td><td class="check">✓ Yes</td><td class="check">✓ Yes</td><td class="check">✓ Yes</td><td class="cross">✗ No</td></tr>
+          <tr>
+            <td></td>
+            <td class="highlight-col"><a href="/open-account" class="btn-primary btn-compare">Open Account</a></td>
+            <td><a href="/open-account" class="btn-secondary btn-compare">Open Account</a></td>
+            <td><a href="/open-account" class="btn-secondary btn-compare">Open Account</a></td>
+            <td><a href="/open-account" class="btn-secondary btn-compare">Open Account</a></td>
+            <td><a href="/open-account" class="btn-secondary btn-compare">Open Account</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+<%- include('partials/footer') %>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/emailWhatsAppRedirect.js"></script>
+</body>
+</html>

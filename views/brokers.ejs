@@ -1,0 +1,419 @@
+<%- include('partials/head') %>
+
+<link rel="stylesheet" href="/css/styles-pages.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/header.css">
+
+
+<style>
+  /* nav{
+      margin-top: 90px;
+    } */
+
+
+  .container>p {
+    color: var(--pages-text2);
+    margin-top: 12px;
+    max-width: 560px;
+  }
+
+  .badge-gold {
+    margin-left: 8px;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    background: var(--pages-bg3);
+    border: 1px solid var(--pages-border);
+    color: var(--pages-text2);
+    transition: all var(--pages-transition);
+    cursor: pointer;
+  }
+
+  .filter-btn.active,
+  .filter-btn:hover {
+    background: linear-gradient(135deg, var(--blue-to-teal12), var(--darkBlue-to-sage2));
+    color: var(--btn-text);
+    box-shadow: var(--shadow-btn-main);
+  }
+
+  .broker-row {
+    background: var(--pages-card-bg);
+    border: 1px solid var(--pages-border);
+    border-radius: var(--pages-radius-lg);
+    padding: 28px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto auto auto;
+    align-items: center;
+    gap: 20px;
+    transition: all var(--pages-transition);
+  }
+
+  .broker-row:hover {
+    border-color: var(--bk-border-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-bk-hover);
+  }
+
+  .broker-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: var(--pages-bg4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--pages-font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--pages-gold);
+  }
+
+  .broker-info h3 {
+    font-family: var(--pages-font-display);
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .broker-info p {
+    font-size: 0.84rem;
+    color: var(--pages-text2);
+  }
+
+  .broker-stat {
+    text-align: center;
+  }
+
+  .broker-stat strong {
+    display: block;
+    font-family: var(--pages-font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .broker-stat span {
+    font-size: 0.76rem;
+    color: var(--pages-text3);
+  }
+
+  .btn-secondary {
+    padding: 9px 18px;
+    font-size: 0.84rem;
+    white-space: nowrap;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    padding: 9px 18px;
+    font-size: 0.84rem;
+    white-space: nowrap;
+  }
+
+    .stars{
+      display: flex;
+    justify-items: flex-start;
+      color: var(--pages-text2);
+
+     }
+     
+  .full-filled-star {
+    color: var(--pages-gold);
+    /* border: 1px solid var(--pages-gold); */
+  }
+
+  .half-filled-star {
+    color: var(--pages-text2);
+    /* 1. Base right side color (empty grey) */
+    position: relative;
+    display: inline-block;
+  }
+
+  .half-filled-star::after {
+    display: flex;
+    /* 2. Creates a pseudo-element overlay */
+    content: '★';
+    /* content: '☆'; */
+    /* 3. MUST duplicate the star string to provide text vector bounds */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    /* 4. Slices the overlay box precisely in half horizontally */
+    height: 100%;
+
+    /* 5. Your exact top-to-bottom transparency gradient mask */
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    mask-image: linear-gradient(to right, var(--pages-gold), var(--pages-gold));
+
+    /* 6. THE MAGIC: Snaps the mask edges tightly to the letter paths of your '★' */
+    -webkit-mask-clip: text;
+
+    /* 7. The filled overlay color (gold) */
+    color: var(--pages-gold);
+
+    z-index: 1;
+    /* 8. Layers the gold half-star directly on top */
+  }
+
+  @media(max-width:900px) {
+    .broker-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .compare-brokers {
+    text-align: center;
+    margin-top: 40px;
+  }
+</style>
+</head>
+
+<body>
+  <%- include('partials/header') %>
+
+  <!-- <nav class="navbar">
+  <a href="index.html" class="nav-logo"><div class="logo-icon">Z</div>ZEN TRUST <span>CAPITAL</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a><a href="brokers.html" class="active">Brokers</a>
+    <a href="markets.html">Markets</a><a href="education.html">Education</a>
+    <a href="articles.html">Insights</a><a href="ib-program.html">Partnership</a><a href="faq.html">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()"><span class="icon-moon">🌙</span><span class="icon-sun">☀️</span></button>
+    <a href="login.html" class="btn-login">Login</a>
+    <a href="open-account.html" class="btn-cta">Open Account →</a>
+  </div>
+</nav> -->
+
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div class="container">
+        <div class="breadcrumb"><a href="/">Home</a><span>/</span><span>Brokers</span></div>
+
+        <span class="section-label">
+          <div class="ld">✦</div>
+          Broker Reviews
+        </span>
+        <h1>Top Rated <span class="text-gold">Forex Brokers</span></h1>
+        <p>Hand-picked, independently reviewed, and ranked for your trading success. Updated monthly by our expert team.
+        </p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterBrokers(this,'all')">All Brokers</button>
+          <button class="filter-btn" onclick="filterBrokers(this,'ecn')">ECN Brokers</button>
+          <button class="filter-btn" onclick="filterBrokers(this,'standard')">Standard</button>
+          <button class="filter-btn" onclick="filterBrokers(this,'crypto')">Crypto Friendly</button>
+          <button class="filter-btn" onclick="filterBrokers(this,'low-deposit')">Low Deposit</button>
+          <button class="filter-btn" onclick="filterBrokers(this,'welcome-bonus')">Welcome Bonus</button>
+        </div>
+
+        <div id="broker-list">
+          <!-- Broker 1 -->
+          <div class="broker-row" data-tags="<%= editAddBroker.brokerDataTags.join(' ') %>">
+            <div class="broker-logo"><%= editAddBroker.brokerLogo %></div>
+            <div class="broker-info">
+              <h3><%= editAddBroker.brokerName %> <span
+                  class="badge badge-gold"><%= editAddBroker.brokerEditorsPick %></span></h3>
+              <div class="stars rating-stars">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+              </div>
+              <p><%= editAddBroker.brokerDescription %></p>
+              <div class="tags"><span class="tag"><%= editAddBroker.brokerTags[0] %></span><span
+                  class="tag"><%= editAddBroker.brokerTags[1] %></span><span
+                  class="tag"><%= editAddBroker.brokerTags[2] %></span><span
+                  class="tag"><%= editAddBroker.brokerTags[3] %></span></div>
+
+            </div>
+            <div class="broker-stat"><strong class="text-gold"><%= editAddBroker.brokerLeverage %></strong><span>Max
+                Leverage</span></div>
+            <div class="broker-stat"><strong>$<%= editAddBroker.brokerMinDeposit %></strong><span>Min Deposit</span>
+            </div>
+            <div class="broker-stat"><strong class="text-green"><%= editAddBroker.brokerMinSpread %></strong><span>Min
+                Spread</span></div>
+            <div class="pages-openAccount">
+              <a href="broker-review.html" class="btn-secondary">Read Review</a>
+              <a href="/open-account" class="btn-primary">Open Account</a>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+          <!-- Broker 1 -->
+          <div class="broker-row" data-tags="ecn low-deposit">
+            <div class="broker-logo">EX</div>
+            <div class="broker-info">
+              <h3>Exness <span class="badge badge-gold">Editor's Pick</span></h3>
+              <div class="stars">★★★★★</div>
+              <p>Industry-leading ultra-low spreads, instant withdrawals, and exceptional Pakistani support.</p>
+              <div class="tags"><span class="tag">FCA</span><span class="tag">CySEC</span><span
+                  class="tag">ECN</span><span class="tag">Instant Withdrawal</span></div>
+            </div>
+            <div class="broker-stat"><strong class="text-gold">1:2000</strong><span>Max Leverage</span></div>
+            <div class="broker-stat"><strong>$1</strong><span>Min Deposit</span></div>
+            <div class="broker-stat"><strong class="text-green">0.0</strong><span>Min Spread</span></div>
+            <div class="pages-openAccount">
+              <a href="broker-review.html" class="btn-secondary">Read Review</a>
+              <a href="/open-account" class="btn-primary">Open Account</a>
+            </div>
+          </div>
+
+          <!-- Broker 2 -->
+          <div class="broker-row" data-tags="welcome-bonus standard">
+            <div class="broker-logo">XM</div>
+            <div class="broker-info">
+              <h3>XM Global</h3>
+              <div class="stars">★★★★★</div>
+              <p>Best for beginners. $30 no-deposit bonus, 1000+ instruments, 24/7 multilingual support.</p>
+              <div class="tags"><span class="tag">CySEC</span><span class="tag">ASIC</span><span class="tag">$30
+                  Bonus</span><span class="tag">MT4/MT5</span></div>
+            </div>
+            <div class="broker-stat"><strong class="text-gold">1:888</strong><span>Max Leverage</span></div>
+            <div class="broker-stat"><strong>$5</strong><span>Min Deposit</span></div>
+            <div class="broker-stat"><strong class="text-green">0.6</strong><span>Min Spread</span></div>
+            <div class="pages-openAccount">
+              <a href="broker-review.html" class="btn-secondary">Read Review</a>
+              <a href="/open-account" class="btn-primary">Open Account</a>
+            </div>
+          </div>
+
+          <!-- Broker 3 -->
+          <div class="broker-row" data-tags="ecn">
+            <div class="broker-logo">IC</div>
+            <div class="broker-info">
+              <h3>IC Markets</h3>
+              <div class="stars">★★★★★</div>
+              <p>True ECN execution. Raw spreads from 0.0 pips. Ideal for scalpers and algo traders.</p>
+              <div class="tags"><span class="tag">ASIC</span><span class="tag">ECN</span><span class="tag">Raw
+                  Spreads</span><span class="tag">cTrader</span></div>
+            </div>
+            <div class="broker-stat"><strong class="text-gold">1:500</strong><span>Max Leverage</span></div>
+            <div class="broker-stat"><strong>$200</strong><span>Min Deposit</span></div>
+            <div class="broker-stat"><strong class="text-green">0.0</strong><span>Min Spread</span></div>
+            <div class="pages-openAccount">
+              <a href="broker-review.html" class="btn-secondary">Read Review</a>
+              <a href="/open-account" class="btn-primary">Open Account</a>
+            </div>
+          </div>
+
+          <!-- Broker 4 -->
+          <div class="broker-row" data-tags="ecn crypto">
+            <div class="broker-logo">FP</div>
+            <div class="broker-info">
+              <h3>FP Markets</h3>
+              <div class="stars">★★★★☆</div>
+              <p>Australian regulated ECN broker with excellent crypto CFD offering and fast execution.</p>
+              <div class="tags"><span class="tag">ASIC</span><span class="tag">ECN</span><span class="tag">Crypto
+                  CFDs</span><span class="tag">MT5</span></div>
+            </div>
+            <div class="broker-stat"><strong class="text-gold">1:500</strong><span>Max Leverage</span></div>
+            <div class="broker-stat"><strong>$100</strong><span>Min Deposit</span></div>
+            <div class="broker-stat"><strong class="text-green">0.0</strong><span>Min Spread</span></div>
+            <div class="pages-openAccount">
+              <a href="broker-review.html" class="btn-secondary">Read Review</a>
+              <a href="/open-account" class="btn-primary">Open Account</a>
+            </div>
+          </div>
+
+          <!-- Broker 5 -->
+          <div class="broker-row" data-tags="standard welcome-bonus">
+            <div class="broker-logo">AX</div>
+            <div class="broker-info">
+              <h3>AxiTrader</h3>
+              <div class="stars">★★★★☆</div>
+              <p>Reliable mid-tier broker with consistent execution and strong educational resources.</p>
+              <div class="tags"><span class="tag">FCA</span><span class="tag">ASIC</span><span
+                  class="tag">Standard</span><span class="tag">MT4</span></div>
+            </div>
+            <div class="broker-stat"><strong class="text-gold">1:400</strong><span>Max Leverage</span></div>
+            <div class="broker-stat"><strong>$0</strong><span>Min Deposit</span></div>
+            <div class="broker-stat"><strong class="text-green">0.4</strong><span>Min Spread</span></div>
+            <div class="pages-openAccount">
+              <a href="broker-review.html" class="btn-secondary">Read Review</a>
+              <a href="/open-account" class="btn-primary">Open Account</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare-brokers">
+          <a href="/compare-brokers" class="btn-primary">📊 Compare All Brokers Side-by-Side</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <%- include('partials/footer') %>
+
+  <script>
+    function filterBrokers(btn, tag) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.broker-row').forEach(row => {
+        if (tag === 'all' || row.dataset.tags?.includes(tag)) {
+          row.style.display = 'grid';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+    let abc = `<%- include('partials/theme-home-btn') %>`;
+    console.log('theme is', abc)
+
+
+
+    // MY LOGIC ::::::::::::::::::::::::::::::::::::::::::
+    let ratingStars = document.querySelectorAll('.rating-stars span');
+
+    console.log(typeof `<%= editAddBroker.brokerRating %>`);
+    for (let i = 0; i < Number(`<%= editAddBroker.brokerRating %>`); i++) {
+      if (Number.isInteger(+`<%= editAddBroker.brokerRating %>`)) {
+        console.log('the number is an integer', this.value);
+
+        ratingStars[i].classList.add('full-filled-star');
+
+      } else {
+
+        ratingStars[i].classList.add('full-filled-star');
+        console.log('the number is not an integer');
+
+        if (Number(`<%= editAddBroker.brokerRating %>`) - i < 1) {
+          ratingStars[i].classList.replace('full-filled-star', 'half-filled-star');
+          console.log('Star is half filled. the number is not an integer');
+        }
+
+      }
+
+    }
+  </script>
+  <script src="/js/theme.js"></script>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

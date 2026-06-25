@@ -1,0 +1,304 @@
+<%- include('partials/head') %>
+
+<link rel="stylesheet" href="/css/styles-pages.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/header.css">
+
+<style>
+    .review-layout { display:grid; grid-template-columns:1fr 340px; gap:32px; }
+    @media(max-width:900px){ .review-layout{ grid-template-columns:1fr; } }
+    .sticky-sidebar { position:sticky; top:90px; height:fit-content; }
+
+    .score-circle {
+      width:90px; height:90px; border-radius:50%;
+      background: conic-gradient(var(--text3) calc(var(--pages-pct) * 3.6deg), var(--pages-bg4) 0);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--pages-font-display); font-size:1.5rem; font-weight:800;
+      position:relative; margin:0 auto 12px;
+    }
+
+    .score-circle::before {
+      content:''; position:absolute; width:70px; height:70px;
+      border-radius:50%; background:var(--pages-bg3);
+    }
+
+    .score-circle span { position:relative; z-index:1; }
+
+    .score-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+
+    .score-bar { flex:1; height:6px; background:var(--pages-bg4); border-radius:3px; margin:0 12px; overflow:hidden; }
+
+    .score-fill { height:100%; background:var(--text3); border-radius:3px; }
+
+    .pros-cons { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+    .pros-list li, .cons-list li { font-size:0.88rem; color:var(--pages-text2); padding:6px 0; display:flex; gap:8px; }
+
+    .pros-list li::before { content:'✓'; color:var(--pages-green); font-weight:700; }
+
+    .cons-list li::before { content:'✗'; color:var(--pages-red); font-weight:700; }
+
+    .review-section { margin-bottom:40px; }
+
+    .review-section h3 {
+      font-family:var(--pages-font-display);
+      margin-bottom:16px;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--pages-border);
+    }
+
+    .spec-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+
+    .spec-item {
+      background:var(--pages-bg3);
+      border:1px solid var(--pages-border);
+      border-radius:10px;
+      padding:16px;
+    }
+
+    .spec-item label {
+      font-size:0.75rem;
+      color:var(--pages-text3);
+      display:block;
+      margin-bottom:4px;
+    }
+
+    .spec-item strong {
+      font-family:var(--pages-font-display);
+      font-size:1.1rem;
+    }
+
+    .broker-header-flex { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+
+    .broker-logo {
+      width:64px;
+      height:64px;
+      border-radius:14px;
+      background:var(--pages-bg4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:var(--pages-font-display);
+      font-size:1.4rem;
+      font-weight:800;
+      color:var(--pages-gold);
+    }
+
+    .broker-title-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+
+    .broker-subtitle-row { display:flex; align-items:center; gap:12px; margin-top:8px; }
+
+    .verdict-card { background:var(--footer-bg); border-color:var(--footer-border); margin-bottom:32px; }
+
+    .verdict-title { color:var(--text3); font-family:var(--pages-font-display); }
+
+    .verdict-text { color:var(--pages-text); margin-top:10px; line-height:1.8; }
+
+    .pros-header { font-size:0.8rem; font-weight:700; color:var(--pages-green); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px; }
+
+    .cons-header { font-size:0.8rem; font-weight:700; color:var(--pages-red); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px; }
+
+    .score-label { font-size:0.88rem; width:140px; }
+
+    .score-value { font-size:0.88rem; color:var(--text3); font-weight:700; }
+
+    .overall-score-label { font-size:0.82rem; color:var(--pages-text3); }
+
+    .stars-margin { margin:8px 0; }
+
+    .cta-button { justify-content:center; margin-top:16px; }
+
+    .risk-warning { font-size:0.75rem; color:var(--pages-text3); margin-top:10px; }
+
+    .quick-facts-title { font-family:var(--pages-font-display); margin-bottom:14px; }
+
+    .quick-fact-row { display:flex; justify-content:space-between; font-size:0.86rem; }
+
+    .sticky-sidebar>.card { text-align:center; margin-bottom:16px; }
+
+    /* NEW: replaced inline styles */
+
+    .review-title { font-size:2rem; }
+
+    .review-rating-text { color:var(--pages-text2); font-size:0.9rem; }
+
+    .score-fill-safety { width:98%; }
+
+    .score-fill-fees { width:96%; }
+
+    .score-fill-withdrawal { width:100%; }
+
+    .score-fill-platforms { width:88%; }
+
+    .score-fill-support { width:90%; }
+
+    .score-row-last { margin-bottom:0; }
+
+    .quick-facts-list { display:flex; flex-direction:column; gap:10px; }
+</style>
+</head>
+
+<body>
+<%- include('partials/header') %>
+
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a><span>/</span>
+        <a href="/brokers">Brokers</a><span>/</span>
+        <span>Exness Review</span>
+      </div>
+
+      <div class="broker-header-flex">
+        <div class="broker-logo">EX</div>
+
+        <div>
+          <div class="broker-title-row">
+            <h1 class="review-title">Exness Review 2026</h1>
+            <span class="badge badge-gold">Editor's Pick</span>
+            <span class="badge badge-green">Regulated</span>
+          </div>
+
+          <div class="broker-subtitle-row">
+            <div class="stars">★★★★★</div>
+            <span class="review-rating-text">4.9/5.0 — Based on 2,400+ reviews</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="review-layout">
+
+        <!-- Main content -->
+        <div>
+
+          <div class="card verdict-card">
+            <h3 class="verdict-title">⚡ ZEN TRUST CAPITAL Verdict</h3>
+            <p class="verdict-text">
+             Exness is our #1 rated broker for Pakistani traders. With a $1 minimum deposit, instant withdrawals to JazzCash and Easypaisa, ultra-tight spreads from 0.0 pips, and up to 1:2000 leverage, it sets the industry standard. FCA and CySEC regulated. We have personally verified the withdrawal process and can confirm same-day payouts.
+            </p>
+          </div>
+
+          <div class="review-section">
+            <h3>📋 Key Specifications</h3>
+            <div class="spec-grid">
+              <div class="spec-item"><label>Min Deposit</label><strong class="text-gold">$1</strong></div>
+              <div class="spec-item"><label>Max Leverage</label><strong class="text-gold">1:2000</strong></div>
+              <div class="spec-item"><label>Min Spread</label><strong class="text-green">0.0 pips</strong></div>
+              <div class="spec-item"><label>Commission</label><strong>$3.5/lot</strong></div>
+              <div class="spec-item"><label>Regulation</label><strong>FCA, CySEC</strong></div>
+              <div class="spec-item"><label>Platforms</label><strong>MT4, MT5</strong></div>
+              <div class="spec-item"><label>Founded</label><strong>2008</strong></div>
+              <div class="spec-item"><label>Withdrawals</label><strong class="text-green">Instant</strong></div>
+              <div class="spec-item"><label>Islamic Account</label><strong class="text-green">✓ Yes</strong></div>
+            </div>
+          </div>
+
+          <div class="review-section">
+            <h3>✅ Pros & Cons</h3>
+            <div class="card pros-cons">
+              <div>
+                <div class="pros-header">Pros</div>
+                <ul class="pros-list">
+                  <li>Ultra-low $1 minimum deposit</li>
+                  <li>Instant same-day withdrawals</li>
+                  <li>Spreads from 0.0 pips on Standard</li>
+                  <li>Up to 1:2000 leverage</li>
+                  <li>FCA & CySEC regulated</li>
+                  <li>Islamic swap-free accounts</li>
+                  <li>24/7 customer support in Urdu</li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="cons-header">Cons</div>
+                <ul class="cons-list">
+                  <li>No welcome bonus offered</li>
+                  <li>Limited research tools</li>
+                  <li>Pro account needs $200 min</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-section">
+            <h3>📊 Category Ratings</h3>
+            <div class="card">
+
+              <div class="score-row">
+                <span class="score-label">Regulation & Safety</span>
+                <div class="score-bar"><div class="score-fill score-fill-safety"></div></div>
+                <span class="score-value">9.8</span>
+              </div>
+
+              <div class="score-row">
+                <span class="score-label">Spreads & Fees</span>
+                <div class="score-bar"><div class="score-fill score-fill-fees"></div></div>
+                <span class="score-value">9.6</span>
+              </div>
+
+              <div class="score-row">
+                <span class="score-label">Deposit & Withdrawal</span>
+                <div class="score-bar"><div class="score-fill score-fill-withdrawal"></div></div>
+                <span class="score-value">10.0</span>
+              </div>
+
+              <div class="score-row">
+                <span class="score-label">Trading Platforms</span>
+                <div class="score-bar"><div class="score-fill score-fill-platforms"></div></div>
+                <span class="score-value">8.8</span>
+              </div>
+
+              <div class="score-row score-row-last">
+                <span class="score-label">Customer Support</span>
+                <div class="score-bar"><div class="score-fill score-fill-support"></div></div>
+                <span class="score-value">9.0</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sticky-sidebar">
+
+          <div class="card">
+            <div class="score-circle"><span>4.9</span></div>
+            <div class="overall-score-label">Overall Score</div>
+            <div class="stars stars-margin">★★★★★</div>
+            <a href="/open-account" class="btn-primary w-full cta-button">Open Exness Account</a>
+            <p class="risk-warning">Risk Warning: CFDs are complex instruments.</p>
+          </div>
+
+          <div class="card">
+            <h4 class="quick-facts-title">Quick Facts</h4>
+
+            <div class="quick-facts-list">
+              <div class="quick-fact-row"><span class="text-muted">Min Deposit</span><strong>$1</strong></div>
+              <div class="quick-fact-row"><span class="text-muted">Max Leverage</span><strong class="text-gold">1:2000</strong></div>
+              <div class="quick-fact-row"><span class="text-muted">Platforms</span><strong>MT4, MT5</strong></div>
+              <div class="quick-fact-row"><span class="text-muted">Regulation</span><strong>FCA, CySEC</strong></div>
+              <div class="quick-fact-row"><span class="text-muted">Local Payments</span><strong class="text-green">✓</strong></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<%- include('partials/footer') %>
+
+<script src="/js/theme.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/emailWhatsAppRedirect.js"></script>
+</body>
+</html>
