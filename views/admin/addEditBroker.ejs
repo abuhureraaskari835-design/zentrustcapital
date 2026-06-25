@@ -6,31 +6,126 @@
 
 
 <style>
+  /* ============================================
+     Broker Admin Form — layout shell
+     ============================================ */
+  .broker-form-page {
+    margin: 110px auto 80px;
+    max-width: 1040px;
+    padding: 0 20px;
+  }
+
+ 
+
   .broker-form-card {
-    max-width: 980px;
-    margin: 110px auto 60px;
-    padding: 36px;
+    position: relative;
+    padding: 38px 40px 32px;
     background: var(--surface-card);
+    background: var(--pages-card-bg);
     border: 1px solid var(--border-card);
     border-radius: var(--r14);
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-perf);
+    overflow: hidden;
+  }
+
+  /* thin gradient rule along the top edge — adds polish without committing to one hue in either theme */
+  .broker-form-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--darkBlue-to-teal12), var(--gold2), var(--darkBlue-to-teal12));
+    opacity: 0.85;
+  }
+
+  .broker-form-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-divider);
   }
 
   .broker-form-card h2 {
     font-family: var(--pages-font-display);
-    font-size: clamp(1.9rem, 2.5vw, 2.4rem);
-    margin-bottom: 8px;
+    font-size: clamp(1.7rem, 2.4vw, 2.15rem);
+    margin-bottom: 6px;
+    color: var(--cream);
+    letter-spacing: -0.01em;
   }
 
-  .broker-form-card p {
+  .broker-form-card-head p {
     color: var(--mist2);
-    margin-bottom: 28px;
     line-height: 1.7;
+    font-size: 0.93rem;
+    max-width: 460px;
+    margin: 0;
+  }
+
+  .broker-form-status {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--darkBlue-to-teal12);
+    background: var(--hero-label-bg);
+    border: 1px solid var(--hero-label-border);
+    white-space: nowrap;
+  }
+
+  /* ============================================
+     Section blocks — replaces flat single grid
+     ============================================ */
+  .form-section {
+    margin-bottom: 30px;
+  }
+
+  .form-section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 16px;
+  }
+
+  .form-section-title .step-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--darkBlue-to-teal12);
+    flex-shrink: 0;
+  }
+
+  .form-section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border-divider);
   }
 
   .broker-form-grid {
     display: grid;
-    gap: 22px;
+    gap: 20px;
   }
 
   .broker-form-grid .full-width {
@@ -43,125 +138,259 @@
     }
   }
 
+  /* identity row gets its own asymmetric layout: logo preview + name + pick toggle */
+  .identity-row {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 860px) {
+    .identity-row {
+      grid-template-columns: 96px 1fr auto;
+      align-items: end;
+    }
+  }
+
+  .logo-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: var(--r10);
+    border: 1px dashed var(--border-medium);
+    background: var(--surface-inset);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .logo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .logo-preview-fallback {
+    color: var(--mist2);
+    font-size: 1.4rem;
+  }
+
+  .editors-pick-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 18px;
+    border: 1px solid var(--border-gold);
+    background: linear-gradient(135deg, var(--blue-to-teal12), var(--darkBlue-to-sage2));
+    border-radius: var(--r10);
+    color: var(--ink);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+
+  .editors-pick-toggle:hover {
+    border-color: var(--border-gold-medium);
+  }
+
+  .editors-pick-toggle input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--darkBlue-to-teal12);
+    cursor: pointer;
+  }
+
+  /* ============================================
+     Field primitives
+     ============================================ */
   .form-group,
   .form-fieldset {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    margin-bottom: 0px;
   }
-  
+
   fieldset.form-fieldset {
     border: 1px solid var(--border-card);
-    padding: 20px 18px 18px;
+    padding: 18px 18px 16px;
     border-radius: var(--r10);
-    
+    background: var(--surface-stripe, transparent);
   }
 
   .form-group label,
   .form-fieldset legend {
-    font-size: 0.95rem;
+    font-size: 0.86rem;
     font-weight: 600;
     color: var(--cream);
   }
 
   .form-fieldset legend {
     padding: 0 8px;
-    margin-left: 6px;
+    margin-left: 4px;
     color: var(--cream);
+  }
+
+  .label-hint {
+    font-weight: 400;
+    color: var(--mist2);
+    font-size: 0.78rem;
   }
 
   .form-input,
-  .form-textarea {
+  .form-textarea,
+  .form-select {
     width: 100%;
-    padding: 14px 16px;
+    padding: 12px 15px;
     border: 1px solid var(--border-card);
     border-radius: var(--r10);
-    background: var(--surface-glass);
+    background: var(--pages-input-bg);
     color: var(--cream);
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
+    font-size: 0.92rem;
+    font-family: inherit;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: var(--mist2);
+    opacity: 0.85;
   }
 
   .form-input:focus,
-  .form-textarea:focus {
+  .form-textarea:focus,
+  .form-select:focus {
     outline: none;
     border-color: var(--darkBlue-to-teal12);
-    box-shadow: 0 0 0 4px var(--surface-hover);
+    background: var(--pages-input-bg-solid);
   }
 
   .form-textarea {
-    min-height: 130px;
+    min-height: 120px;
     resize: vertical;
+    line-height: 1.6;
   }
 
-  .fieldset-body {
-    display: grid;
-    gap: 12px;
-    padding: 16px 0 0;
+  .input-with-prefix {
+    position: relative;
   }
 
+  .input-with-prefix .form-input {
+    padding-left: 34px;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--mist2);
+    font-size: 0.88rem;
+    pointer-events: none;
+  }
+
+  /* ============================================
+     Checkbox tag grid (data tags / broker tags)
+     ============================================ */
   .checkbox-grid {
     display: grid;
-    gap: 12px;
+    gap: 10px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 640px) {
+    .checkbox-grid.checkbox-grid--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   .checkbox-item {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 16px;
+    padding: 12px 14px;
     border: 1px solid var(--border-card);
     border-radius: var(--r10);
-    color: var(--mist2);
-    font-size: 0.95rem;
+    background: var(--surface-card);
+    color: var(--mist);
+    font-size: 0.86rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
   }
 
   .checkbox-item:hover {
     background: var(--surface-hover);
+    border-color: var(--border-medium);
+  }
+
+  .checkbox-item:has(input:checked) {
+    border-color: var(--sage2);
+    background: var(--surface-hover-strong);
+    color: var(--cream);
   }
 
   .checkbox-item input {
-    width: 18px;
-    height: 18px;
+    width: 17px;
+    height: 17px;
     accent-color: var(--darkBlue-to-teal12);
     cursor: pointer;
+    flex-shrink: 0;
   }
 
   .inline-inputs {
     display: grid;
-    gap: 20px;
+    gap: 18px;
   }
 
   @media (min-width: 860px) {
     .inline-inputs {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .inline-inputs.inline-inputs--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* ============================================
+     Rating stars
+     ============================================ */
+  .rating-field {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    border: 1px solid var(--border-card);
+    border-radius: var(--r10);
+    background: var(--surface-stripe, var(--surface-inset));
   }
 
   .rating-stars {
     display: inline-flex;
-    gap: 6px;
-    padding: 12px 14px;
-    border-radius: var(--r10);
-    color: var(--mist2);
-    font-size: 1.4rem;
-    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 1.3rem;
+    line-height: 1;
   }
 
   .rating-stars .star {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 36px;
-    border-radius: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
     background: var(--surface-hover);
+    color: var(--mist2);
+    transition: background 0.25s ease;
   }
 
   .full-filled-star {
-    color: var(--gold3);
+    color: var(--gold3) !important;
+    background: var(--wc-ico-g-bg, var(--surface-hover-strong)) !important;
   }
 
   .half-filled-star {
@@ -170,55 +399,113 @@
     display: inline-block;
   }
 
-  .half-filled-star::after {
-    content: '★';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    -webkit-mask-image: linear-gradient(to right, black 100%, transparent 100%);
-    mask-image: linear-gradient(to right, black 100%, transparent 100%);
-    -webkit-mask-clip: text;
-    color: var(--gold3);
-    z-index: 1;
+  span.star.half-filled-star::after {
+    content: '★' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    color: rgb(212, 150, 0) !important;
+    -webkit-text-fill-color: rgb(212, 150, 0) !important;
+    background: linear-gradient(to right, rgb(212, 150, 0) 50%, transparent 50%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
   }
 
+  .rating-readout {
+    font-size: 0.82rem;
+    color: var(--mist2);
+    font-weight: 600;
+        justify-content: space-between;
+    align-items: center;
+    width: 200px;
+  }
+
+  .rating-readout strong {
+    color: var(--cream);
+    font-size: 0.95rem;
+    margin-left: 10px;
+  }
+
+  /* =======================================
+     Misc
+     ============================================ */
   .form-hint {
     color: var(--mist2);
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     line-height: 1.5;
   }
 
   .form-actions {
-    margin-top: 28px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-divider);
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 12px;
     flex-wrap: wrap;
   }
 
+  .form-actions-hint {
+    margin-right: auto;
+    font-size: 0.8rem;
+    color: var(--mist2);
+  }
+
   .btn-primary {
-    min-width: 160px;
+    min-width: 170px;
+    box-shadow: var(--shadow-btn-cta);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--shadow-btn-cta-hover);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 768px) {
+    .broker-form-page {
+      margin: 90px auto 50px;
+      padding: 0 14px;
+    }
+
     .broker-form-card {
-      margin: 90px 16px 40px;
-      padding: 26px;
+      padding: 26px 22px 24px;
+    }
+
+    .broker-form-card-head {
+      flex-direction: column;
     }
 
     .checkbox-grid,
     .inline-inputs {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
     }
 
     .form-actions {
       justify-content: stretch;
     }
 
-    .form-actions button {
+    .form-actions-hint {
+      margin-right: 0;
+      order: 99;
+      text-align: center;
       width: 100%;
+    }
+
+    .form-actions button,
+    .form-actions a {
+      width: 100%;
+      text-align: center;
     }
   }
 </style>
@@ -227,111 +514,156 @@
 <body>
   <%- include('../partials/header') %>
 
-
-
-
   <div class="page-wrapper">
     <div class="container">
-      <div class="broker-form-card">
-        <h2>Add / Edit Broker</h2>
-        <p>Fill in the broker details below. The form is optimized for quick edits and matches the rest of the site
-          styling.</p>
+      <div class="broker-form-page">
 
-        <form action="/admin/addEditBroker" method="post">
-          <input type="hidden" name="brokerId">
-
-          <div class="broker-form-grid">
-            <fieldset class="full-width form-fieldset">
-              <legend>Data Tags</legend>
-              <div class="checkbox-grid">
-                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="ecn"> ECN
-                  Brokers</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="standard">
-                  Standard</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="crypto"> Crypto
-                  Friendly</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="low-deposit"> Low
-                  Deposit</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="welcome-bonus"> Welcome
-                  Bonus</label>
-              </div>
-            </fieldset>
-
-            <div class="form-group">
-              <label for="brokerLogo">Broker Logo URL</label>
-              <input id="brokerLogo" type="text" name="brokerLogo" class="form-input"
-                placeholder="https://example.com/logo.png">
+<span class="section-label">
+          <div class="ld">✦</div>
+          Admin · Broker Directory
+        </span>
+        <div class="broker-form-card">
+          <div class="broker-form-card-head">
+            <div>
+              <h2>Add / Edit Broker</h2>
+              <p>Fill in the broker details below. Fields are grouped by purpose so listings stay consistent across the
+                directory.</p>
             </div>
-
-            <div class="form-group">
-              <label for="brokerName">Broker Name</label>
-              <input id="brokerName" type="text" name="brokerName" class="form-input" placeholder="e.g. Alpha Trading">
-            </div>
-
-            <div class="form-group">
-              <label class="checkbox-item"
-                style="background: transparent; border: none; padding: 0; gap: 10px; color: var(--cream);">
-                <input type="checkbox" name="brokerEditorsPick" value="Editor's Pick" style="width:auto; height:auto;">
-                Editor's Pick
-              </label>
-            </div>
-
-            <div class="form-group">
-              <label for="brokerRating">Rating</label>
-              <input id="brokerRating" type="number" value="0" name="brokerRating" class="form-input" min="0" max="5"
-                step="0.1" placeholder="0.0">
-              <p class="form-hint">Set a value from 0 to 5. Use decimals for half ratings.</p>
-            </div>
-
-            <div class="form-group full-width">
-              <div class="rating-stars">
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-                <span class="star">★</span>
-              </div>
-            </div>
-
-            <div class="form-group full-width">
-              <label for="brokerDescription">Description</label>
-              <textarea id="brokerDescription" name="brokerDescription" class="form-textarea"
-                placeholder="Write a short description for the broker..."></textarea>
-            </div>
-
-            <fieldset class="full-width form-fieldset">
-              <legend>Broker Tags</legend>
-              <div class="checkbox-grid">
-                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="FCA"> FCA</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="CySEC"> CySEC</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="ECN"> ECN</label>
-                <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="Instant Withdrawal">
-                  Instant Withdrawal</label>
-              </div>
-            </fieldset>
-
-            <div class="form-group">
-              <label for="brokerLeverage">Leverage</label>
-              <input id="brokerLeverage" type="text" name="brokerLeverage" class="form-input" placeholder="e.g. 1:500">
-            </div>
-
-            <div class="form-group">
-              <label for="brokerMinDeposit">Minimum Deposit</label>
-              <input id="brokerMinDeposit" type="number" name="brokerMinDeposit" class="form-input"
-                placeholder="e.g. 100">
-            </div>
-
-            <div class="form-group">
-              <label for="brokerMinSpread">Minimum Spread</label>
-              <input id="brokerMinSpread" type="text" name="brokerMinSpread" class="form-input" placeholder="1:2000">
-            </div>
+            <span class="broker-form-status">● Draft</span>
           </div>
 
-          <div class="form-actions">
-            <button type="submit" class="btn-primary">Save Broker</button>
-            <a href="/admin" class="btn-secondary">Back to Admin</a>
-          </div>
-        </form>
+          <form action="/admin/addEditBroker" method="post">
+            <input type="hidden" name="brokerId">
+
+            <!-- Step 1: Identity -->
+            <div class="form-section">
+              <div class="form-section-title"><span class="step-dot">1</span> Broker identity</div>
+
+              <div class="broker-form-grid">
+                <div class="full-width identity-row">
+                  <div class="logo-preview" id="logoPreview">
+                    <span class="logo-preview-fallback">🏷️</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="brokerName">Broker name</label>
+                    <input id="brokerName" type="text" name="brokerName" class="form-input"
+                      placeholder="e.g. Alpha Trading">
+                  </div>
+
+                  <label class="editors-pick-toggle">
+                    <input type="checkbox" name="brokerEditorsPick" value="Editor's Pick">
+                    Editor's Pick
+                  </label>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="brokerLogo">Broker logo URL</label>
+                  <input id="brokerLogo" type="text" name="brokerLogo" class="form-input"
+                    placeholder="https://example.com/logo.png">
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Rating & description -->
+            <div class="form-section">
+              <div class="form-section-title"><span class="step-dot">2</span> Rating &amp; summary</div>
+
+              <div class="broker-form-grid">
+                <div class="form-group full-width">
+                  <label for="brokerRating">Rating <span class="label-hint">— 0 to 5, decimals allowed</span></label>
+                  <div class="rating-field">
+                    <input id="brokerRating" type="number" value="0" name="brokerRating" class="form-input" min="0"
+                      max="5" step="0.1" placeholder="0.0" style="max-width: 110px;">
+                    <div class="rating-stars">
+                      <span class="star">★</span>
+                      <span class="star">★</span>
+                      <span class="star">★</span>
+                      <span class="star">★</span>
+                      <span class="star">★</span>
+                    </div>
+                    <span class="rating-readout">Current: <strong id="ratingReadout">0.0</strong> / 5</span>
+                  </div>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="brokerDescription">Description</label>
+                  <textarea id="brokerDescription" name="brokerDescription" class="form-textarea"
+                    placeholder="Write a short description for the broker..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Classification tags -->
+            <div class="form-section">
+              <div class="form-section-title"><span class="step-dot">3</span> Classification</div>
+
+              <div class="broker-form-grid">
+                <fieldset class="full-width form-fieldset">
+                  <legend>Data tags</legend>
+                  <div class="checkbox-grid checkbox-grid--3">
+                    <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="ecn"> ECN
+                      Brokers</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="standard">
+                      Standard</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="crypto"> Crypto
+                      Friendly</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="low-deposit"> Low
+                      Deposit</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerDataTags" value="welcome-bonus">
+                      Welcome
+                      Bonus</label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="full-width form-fieldset">
+                  <legend>Broker tags</legend>
+                  <div class="checkbox-grid">
+                    <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="FCA"> FCA</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="CySEC"> CySEC</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="ECN"> ECN</label>
+                    <label class="checkbox-item"><input type="checkbox" name="brokerTags" value="Instant Withdrawal">
+                      Instant Withdrawal</label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+
+            <!-- Step 4: Trading conditions -->
+            <div class="form-section">
+              <div class="form-section-title"><span class="step-dot">4</span> Trading conditions</div>
+
+              <div class="inline-inputs inline-inputs--3">
+                <div class="form-group">
+                  <label for="brokerLeverage">Leverage</label>
+                  <input id="brokerLeverage" type="text" name="brokerLeverage" class="form-input"
+                    placeholder="e.g. 1:500">
+                </div>
+
+                <div class="form-group">
+                  <label for="brokerMinDeposit">Minimum deposit</label>
+                  <div class="input-with-prefix">
+                    <span class="input-prefix">$</span>
+                    <input id="brokerMinDeposit" type="number" name="brokerMinDeposit" class="form-input"
+                      placeholder="100">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="brokerMinSpread">Minimum spread</label>
+                  <input id="brokerMinSpread" type="text" name="brokerMinSpread" class="form-input"
+                    placeholder="1:2000">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <span class="form-actions-hint">Changes are saved only after you click Save Broker.</span>
+              <a href="/admin" class="btn-secondary">Back to Admin</a>
+              <button type="submit" class="btn-primary">Save Broker</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -413,7 +745,7 @@
 
     let brokerMinSpread = document.querySelector('input[name="brokerMinSpread"]');
     brokerMinSpread.addEventListener('input', function () {
-     
+
       if (this.value.length === 1) {
         this.value = this.value.substring(0, 1) + ":";
       }
@@ -421,7 +753,40 @@
 
       // }
     })
-  
+
+    // ---- Additive UI helpers (do not affect form submission logic) ----
+
+    // Keep the numeric rating readout in sync with the input
+    const ratingReadout = document.getElementById('ratingReadout');
+    if (ratingReadout) {
+      ratingInput.addEventListener('input', function () {
+        const val = parseFloat(this.value);
+        ratingReadout.textContent = Number.isNaN(val) ? '0.0' : val.toFixed(1);
+      });
+    }
+
+    // Show a live preview of the logo image if the URL resolves
+    const brokerLogoInput = document.getElementById('brokerLogo');
+    const logoPreview = document.getElementById('logoPreview');
+    if (brokerLogoInput && logoPreview) {
+      brokerLogoInput.addEventListener('input', function () {
+        const url = this.value.trim();
+        if (!url) {
+          logoPreview.innerHTML = '<span class="logo-preview-fallback">🏷️</span>';
+          return;
+        }
+        const img = new Image();
+        img.onload = () => {
+          logoPreview.innerHTML = '';
+          logoPreview.appendChild(img);
+        };
+        img.onerror = () => {
+          logoPreview.innerHTML = '<span class="logo-preview-fallback">⚠️</span>';
+        };
+        img.src = url;
+        img.alt = 'Broker logo preview';
+      });
+    }
   </script>
   <%- include('../partials/footer') %>
 
