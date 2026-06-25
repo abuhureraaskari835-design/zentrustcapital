@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const rootdir = require('./utils/pathutils.js');
+const rootdir = require('./utils/pathUtils');
 // const homePageRouter = path.join(rootdir, 'routes', 'home.js');
 const homePageRouter = require('./routes/home.js');
 const brokerPageRouter = require('./routes/brokers.js');
@@ -19,12 +19,8 @@ const contactPageRouter = require('./routes/contact.js');
 const compareBrokersPageRouter = require('./routes/compare-brokers.js');
 const brokerReviewRouter = require('./routes/broker-review.js');
 const aboutReviewRouter = require('./routes/about.js');
-const addEditBroker = require('./routes/admin/addEditBroker.js');
-const { connectMongo } = require('./utils/databaseUtil.js');
 
-app.use(express.static(path.join(rootdir, 'public')));
-app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
+app.use(express.static(path.join(rootdir, 'Public')));
 
 const viewsPath = path.join(rootdir, 'views');
 app.set('view engine', 'ejs');
@@ -47,8 +43,6 @@ app.use(contactPageRouter);
 app.use(compareBrokersPageRouter);
 app.use(brokerReviewRouter);
 app.use(aboutReviewRouter);
-app.use(addEditBroker);
-
 // app.get('/',(req, res, next) => {
 //     res.render('index');
 // });
@@ -56,10 +50,8 @@ app.use(addEditBroker);
 
 
 
-const port = process.env.PORT || 3000;
-// connectMongo(client=>{
-//     console.log('Connected to MongoDB', client);
+const port = process.env.PORT || 3001;
+
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
-// });
